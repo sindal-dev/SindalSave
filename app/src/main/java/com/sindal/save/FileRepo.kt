@@ -14,6 +14,7 @@ enum class Kind(val key: String, val label: String, val color: Int, val exts: Se
     PDF("pdf", "PDF", 0xFFFF6B6B.toInt(), setOf("pdf")),
     IMAGE("image", "이미지", 0xFF64D2FF.toInt(), setOf("jpg", "jpeg", "png", "gif", "webp", "heic", "heif", "bmp")),
     ZIP("zip", "압축", 0xFFFFC043.toInt(), setOf("zip", "rar", "7z", "alz", "egg", "tar", "gz")),
+    HTML("html", "HTML", 0xFF63E6BE.toInt(), setOf("html", "htm", "xhtml", "mhtml", "mht")),
     DOC("doc", "문서", 0xFF7AA2FF.toInt(), setOf("hwp", "hwpx", "doc", "docx", "ppt", "pptx", "xls", "xlsx", "txt", "md", "csv", "rtf", "odt", "key", "pages")),
     VIDEO("video", "영상", 0xFFBF5AF2.toInt(), setOf("mp4", "mov", "mkv", "avi", "webm", "3gp")),
     AUDIO("audio", "음악·녹음", 0xFF30D158.toInt(), setOf("mp3", "m4a", "wav", "aac", "ogg", "flac")),
