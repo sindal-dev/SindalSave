@@ -1,0 +1,55 @@
+name: Build APK
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: '8.7'
+
+      - name: Build
+        shell: bash
+        run: |
+          set -o pipefail
+          gradle assembleRelease --no-daemon 2>&1 | tee build.log
+
+      - name: Report errors
+        if: failure()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          grep -E "^e: |error:|What went wrong|AAPT|Execution failed" -A3 build.log | head -c 60000 > errors.txt || true
+          gh api repos/${{ github.repository }}/commits/${{ github.sha }}/comments -F body=@errors.txt
+
+      - name: Rename APK
+        run: cp app/build/outputs/apk/release/app-release.apk SindalSave.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: apk
+          path: SindalSave.apk
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: 빌드 ${{ github.run_number }}
+          body: 정리함
+          files: SindalSave.apk
