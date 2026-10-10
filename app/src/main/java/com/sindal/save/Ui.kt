@@ -180,9 +180,12 @@ fun LinearLayout.addFixed(v: View, wDp: Int, hDp: Int, startDp: Int = 0, topDp: 
     return v
 }
 
+/** 남는 공간을 채우는 빈 칸. 높이(가로 줄)나 너비(세로 줄)는 0으로 둬야 줄 전체가 늘어나지 않음 */
 fun LinearLayout.addSpace(): View {
     val v = View(context)
-    addWeighted(v)
+    val lp = if (orientation == LinearLayout.HORIZONTAL) LinearLayout.LayoutParams(0, 0, 1f)
+    else LinearLayout.LayoutParams(0, 0, 1f)
+    addView(v, lp)
     return v
 }
 
