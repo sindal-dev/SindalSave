@@ -65,7 +65,7 @@ class MainActivity : Activity() {
     private val HOT_BG = 0x1A64D2FF
     private val HOT = 0xFF64D2FF.toInt()
     /** 개수 카드가 따로 있는 종류 (나머지는 '문서·기타') */
-    private val MAIN_KINDS = setOf(Kind.PDF, Kind.IMAGE, Kind.ZIP, Kind.HTML)
+    private val MAIN_KINDS = setOf(Kind.PDF, Kind.IMAGE, Kind.ZIP, Kind.HTML, Kind.APK)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -438,6 +438,7 @@ class MainActivity : Activity() {
             "image" -> l.filter { it.kind == Kind.IMAGE }
             "zip" -> l.filter { it.kind == Kind.ZIP }
             "html" -> l.filter { it.kind == Kind.HTML }
+            "apk" -> l.filter { it.kind == Kind.APK }
             "rest" -> l.filter { it.kind !in MAIN_KINDS }
             else -> l
         }
@@ -502,6 +503,7 @@ class MainActivity : Activity() {
             Triple("image", "이미지", items.count { it.kind == Kind.IMAGE }) to Kind.IMAGE.color,
             Triple("zip", "압축", items.count { it.kind == Kind.ZIP }) to Kind.ZIP.color,
             Triple("html", "HTML", items.count { it.kind == Kind.HTML }) to Kind.HTML.color,
+            Triple("apk", "APK", items.count { it.kind == Kind.APK }) to Kind.APK.color,
             Triple("rest", "문서·기타", rest) to Kind.DOC.color,
         )
         cards.forEachIndexed { i, (t, color) ->
@@ -826,8 +828,8 @@ class MainActivity : Activity() {
             days.visibility = if (kind == "age") View.VISIBLE else View.GONE
             ageBox.removeAllViews()
             if (kind == "age") {
-                val keys = listOf("", "pdf", "image", "zip", "html", "doc")
-                ageBox.addView(segmented(listOf("전체", "PDF", "이미지", "압축", "HTML", "문서"), keys.indexOf(ageKind).coerceAtLeast(0)) { ageKind = keys[it]; refresh() })
+                val keys = listOf("", "pdf", "image", "zip", "html", "apk", "doc")
+                ageBox.addView(segmented(listOf("전체", "PDF", "이미지", "압축", "HTML", "APK", "문서"), keys.indexOf(ageKind).coerceAtLeast(0)) { ageKind = keys[it]; refresh() })
             }
             targetBtn.text = target?.let { "옮길 곳 · ${it.name}" } ?: "옮길 폴더 고르기"
         }
